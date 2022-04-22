@@ -1,0 +1,7 @@
+host:10.200.40.4
+user:admin
+password:rat@12345
+
+
+
+

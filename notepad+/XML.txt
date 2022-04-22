@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?php
+/* DB connection*/
+$con=mysqli_connect("localhost", "root", "", "inthrajith");
+
+if(!$con){
+    echo "DB not Connected...";
+}
+else
+{
+    // retrive data from db
+
+    $result=mysqli_query($con, "Select * from EMP_INFORMATION");
+    $numrow =mysqli_num_rows($result);
+
+if($numrow>0)
+{
+    $xml = new DOMDocument("1.0");
+    $xml->formatOutput=true;
+    $inthrajith=$xml->createElement("EMP_INFORMATIONS");
+    $xml->appendChild($inthrajith);
+
+    while($row=mysqli_fetch_array($result))
+    {
+     $EMP_INFORMATION=$xml->createElement("employee_info"."-".$row['EMP_ID']);
+     $inthrajith->appendChild($EMP_INFORMATION);
+
+    $emp_id=$xml ->createElement('emp_id',$row['EMP_ID']);
+    $EMP_INFORMATION -> appendChild($emp_id);
+
+    $name=$xml ->createElement('name',$row['EMP_NAME']);
+    $EMP_INFORMATION -> appendChild($name);
+
+    $age=$xml ->createElement('age',$row['AGE']);
+    $EMP_INFORMATION -> appendChild($age);
+
+    $gender=$xml ->createElement('gender',$row['GENDER']);
+    $EMP_INFORMATION -> appendChild($gender);
+
+    $mobile=$xml ->createElement('mobile',$row['MOBILE_NO']);
+    $EMP_INFORMATION -> appendChild($mobile);
+    
+    $city=$xml ->createElement('city',$row['CITY']);
+    $EMP_INFORMATION -> appendChild($city);
+}
+    echo "<xmp>".$xml->saveXML()."</xmp>";
+    $xml->save("Empinfo.xml");
+}
+else
+{
+    echo "error";
+}
+}
+?>
